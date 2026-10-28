@@ -1,3 +1,4 @@
+
 import time
 
 import numpy as np
@@ -33,15 +34,9 @@ def test_saida_dentro_do_universo(simulador):
 def test_monotonicidade_impacto(simulador):
     explorabilidade = 5.0
 
-    baixa = executar_inferencia(
-        simulador, 20, explorabilidade
-    )
-    media = executar_inferencia(
-        simulador, 50, explorabilidade
-    )
-    alta = executar_inferencia(
-        simulador, 90, explorabilidade
-    )
+    baixa = executar_inferencia(simulador, 20, explorabilidade)
+    media = executar_inferencia(simulador, 50, explorabilidade)
+    alta = executar_inferencia(simulador, 90, explorabilidade)
 
     assert baixa <= media <= alta
 
@@ -60,7 +55,7 @@ def test_entradas_invalidas_disparam_erro(simulador):
 def test_latencia_inferencia(simulador):
     rng = np.random.default_rng(42)
 
-    # Aquecimento para reduzir o efeito da inicialização.
+    # Aquecimento antes da medição.
     executar_inferencia(simulador, 50, 5)
 
     inicio = time.perf_counter()
@@ -68,6 +63,7 @@ def test_latencia_inferencia(simulador):
     for _ in range(100):
         impacto = float(rng.uniform(0, 100))
         explorabilidade = float(rng.uniform(0, 10))
+
         executar_inferencia(
             simulador, impacto, explorabilidade
         )
